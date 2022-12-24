@@ -31,4 +31,7 @@ public class BoardService {
     public void boardDelete(Long id){
         boardRepository.deleteById(id);
     }
+
+    // 글 수정
+
 }
