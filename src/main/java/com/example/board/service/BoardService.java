@@ -43,6 +43,11 @@ public class BoardService {
     public Page<Board> boardList(Pageable pageable){
        return boardRepository.findAll(pageable);
     }
+
+    public Page<Board> boardSearchList(String searchKeyword,Pageable pageable){
+        return boardRepository.findByTitleContaining(searchKeyword,pageable);
+    }
+
     // 게시글 상세
     public Board boardView(Long id){
         return boardRepository.findById(id).get();

@@ -44,8 +44,16 @@ public class BoardController {
     }
 
     @GetMapping("board/list")
-    public String boardList(Model model,@PageableDefault(page = 0,size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Board> list = boardService.boardList(pageable);
+    public String boardList(Model model
+            ,String searchKeyword
+            ,@PageableDefault(page = 0,size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Board> list = null;
+
+        if(searchKeyword != null){
+            list = boardService.boardSearchList(searchKeyword,pageable);
+        }else {
+            list = boardService.boardList(pageable);
+        }
 
         int nowPage= list.getPageable().getPageNumber() + 1;
         //현재 페이지가 1인경우 -4 를 하면  // 1보다 작을 경우 오른쪽

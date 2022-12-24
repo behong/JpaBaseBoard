@@ -16,5 +16,7 @@ import java.util.function.Function;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
+    Page<Board> findByTitleContaining(String searchKeyword,Pageable pageable);
+
 
 }
