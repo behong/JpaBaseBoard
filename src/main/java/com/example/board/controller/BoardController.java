@@ -4,6 +4,7 @@ package com.example.board.controller;
 import com.example.board.entity.Board;
 import com.example.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -44,8 +45,18 @@ public class BoardController {
 
     @GetMapping("board/list")
     public String boardList(Model model,@PageableDefault(page = 0,size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
+        Page<Board> list = boardService.boardList(pageable);
 
-        model.addAttribute("list",boardService.boardList(pageable));
+        int nowPage= list.getPageable().getPageNumber() + 1;
+        //현재 페이지가 1인경우 -4 를 하면  // 1보다 작을 경우 오른쪽
+        int startPage = Math.max(nowPage -4 ,1);
+        // 10 페이지 뿐이 없는데  // 전체 페이지를 넘지 않게..
+        int endPage = Math.min(nowPage + 5,list.getTotalPages());
+
+        model.addAttribute("list",list);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
 
         return "boardList";
     }
