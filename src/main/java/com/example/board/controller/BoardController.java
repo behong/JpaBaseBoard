@@ -26,10 +26,14 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardwritepro(Board board){
+    public String boardwritepro(Board board,Model model){
 
         boardService.boardWrite(board);
-        return "ss";
+
+        model.addAttribute("message","등록 성공");
+        model.addAttribute("replaceUrl" ,"/board/list");
+
+        return "message";
 
     }
 
@@ -64,7 +68,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Long id,Board board){
+    public String boardUpdate(@PathVariable("id") Long id,Board board,Model model){
 
         Board boardTemp = boardService.boardView(id);
         boardTemp.setTitle(board.getTitle());
@@ -72,7 +76,10 @@ public class BoardController {
 
         boardService.boardWrite(boardTemp);
 
-        return "redirect:/board/list";
+        model.addAttribute("message","수정 성공");
+        model.addAttribute("replaceUrl" ,"/board/list");
+
+        return "message";
 
     }
 
