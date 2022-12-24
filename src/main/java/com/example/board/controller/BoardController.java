@@ -40,4 +40,18 @@ public class BoardController {
         return "boardList";
     }
 
+    @GetMapping("board/view")   //board/view?id=1
+    public String boardView(Model model,Long id){
+
+        model.addAttribute("board",boardService.boardView(id));
+
+        return "boardView";
+    }
+
+    @GetMapping("board/delete")
+    public String boardDelete(Model model,Long id){
+        boardService.boardDelete(id);
+        return "redirect:/board/list";
+    };
+
 }
